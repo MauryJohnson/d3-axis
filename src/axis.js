@@ -1,4 +1,5 @@
 import identity from "./identity.js";
+import {timeHour,timeMinute,timeDay} from "d3-time";
 
 var top = 1,
     right = 2,
@@ -119,13 +120,13 @@ function axis(orient, scale) {
     
     // Calculate the interval (difference between the first two ticks)
     const tickDiff = ticks[1] - ticks[0];
-    const interval = d3.timeMinute; // Default to minute interval
+    const interval = timeMinute; // Default to minute interval
     
     // If the difference is greater than a certain threshold, adjust the interval
     if (tickDiff >= 60 * 60 * 1000) { // If ticks are hourly or larger
-      interval = d3.timeHour;
+      interval = timeHour;
     } else if (tickDiff >= 24 * 60 * 60 * 1000) { // If ticks are daily or larger
-      interval = d3.timeDay;
+      interval = timeDay;
     }
 
     let newTicks = [...ticks];
