@@ -113,7 +113,41 @@ function axis(orient, scale) {
     selection
         .each(function() { this.__axis = position; });
   }
+  axis.extend = function(X) {
+    // Get the current ticks
+    const ticks = scale.ticks();
+    
+    // Calculate the interval (difference between the first two ticks)
+    const tickDiff = ticks[1] - ticks[0];
+    const interval = d3.timeMinute; // Default to minute interval
+    
+    // If the difference is greater than a certain threshold, adjust the interval
+    if (tickDiff >= 60 * 60 * 1000) { // If ticks are hourly or larger
+      interval = d3.timeHour;
+    } else if (tickDiff >= 24 * 60 * 60 * 1000) { // If ticks are daily or larger
+      interval = d3.timeDay;
+    }
 
+    let newTicks = [...ticks];
+
+    // If X > 0, extend to the right, else extend to the left
+    if (X > 0) {
+      let lastTick = ticks[ticks.length - 1];
+      for (let i = 0; i < X; i++) {
+        lastTick = interval.offset(lastTick, 1); // Add a new tick
+        newTicks.push(lastTick);
+      }
+    } else if (X < 0) {
+      let firstTick = ticks[0];
+      for (let i = 0; i < Math.abs(X); i++) {
+        firstTick = interval.offset(firstTick, -1); // Subtract a tick
+        newTicks.unshift(firstTick);
+      }
+    }
+
+    axis.tickValues(newTicks); // Set new tick values
+    return axis;
+  };
   axis.scale = function(_) {
     return arguments.length ? (scale = _, axis) : scale;
   };
