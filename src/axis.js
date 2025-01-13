@@ -116,11 +116,11 @@ function axis(orient, scale) {
   }
   axis.extend = function(X) {
     // Get the current ticks
-    const ticks = scale.ticks();
+    let ticks = scale.ticks();
     
     // Calculate the interval (difference between the first two ticks)
-    const tickDiff = ticks[1] - ticks[0];
-    const interval = d3.timeMinute; // Default to minute interval
+    let tickDiff = ticks[1] - ticks[0];
+    let interval = d3.timeMinute; // Default to minute interval
     
     // If the difference is greater than a certain threshold, adjust the interval
     if (tickDiff >= 60 * 60 * 1000) { // If ticks are hourly or larger
