@@ -165,8 +165,9 @@ function axis(orient, scale) {
             newTicks.unshift(firstTick);
         }
     }
+    
+    tickValues = Array.from(newTicks);
 
-    axis.tickValues(newTicks); // Set new tick values
     return axis;
   };
 
