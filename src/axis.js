@@ -196,7 +196,9 @@ function axis(orient, scale) {
 
     if(newTicks)
     	tickValues = Array.from(newTicks);
-
+	
+    console.warn("New ticks end")
+    console.warn(newTicks)
     return {axis,tickValues:newTicks};
   };
 
