@@ -115,58 +115,84 @@ function axis(orient, scale) {
         .each(function() { this.__axis = position; });
   }
 
-  axis.extend = function(X) {
+  axis.extend = function(extension) {
+
     // Get the current ticks
     let ticks = scale.ticks();
-    
-    // Calculate the interval (difference between the first two ticks)
-    let tickDiff = ticks[1] - ticks[0];
-    let interval = d3.timeMinute; // Default to minute interval
-    
-    // Adjust the interval based on the tickDiff
-    if (tickDiff >= 365 * 24 * 60 * 60 * 1000) { // If ticks are yearly or larger
-        interval = d3.timeYear;
-        tickDiff = tickDiff / (365 * 24 * 60 * 60 * 1000); // Convert to years
-    } 
-    else if (tickDiff >= 30 * 24 * 60 * 60 * 1000) { // If ticks are monthly or larger
-        interval = d3.timeMonth;
-        tickDiff = tickDiff / (30 * 24 * 60 * 60 * 1000); // Convert to months
+    let newTicks;
+
+    if(orient === top || orient === bottom){ 
+	    // Calculate the interval (difference between the first two ticks)
+	    let tickDiff = ticks[1] - ticks[0];
+	    let interval = d3.timeMinute; // Default to minute interval
+	    
+	    // Adjust the interval based on the tickDiff
+	    if (tickDiff >= 365 * 24 * 60 * 60 * 1000) { // If ticks are yearly or larger
+	        interval = d3.timeYear;
+	        tickDiff = tickDiff / (365 * 24 * 60 * 60 * 1000); // Convert to years
+	    } 
+	    else if (tickDiff >= 30 * 24 * 60 * 60 * 1000) { // If ticks are monthly or larger
+	        interval = d3.timeMonth;
+	        tickDiff = tickDiff / (30 * 24 * 60 * 60 * 1000); // Convert to months
+	    }
+	    else if (tickDiff >= 24 * 60 * 60 * 1000) { // If ticks are daily or larger
+	        interval = d3.timeDay;
+	        tickDiff = tickDiff / (24 * 60 * 60 * 1000); // Convert to days
+	    }
+	    else if (tickDiff >= 60 * 60 * 1000) { // If ticks are hourly or larger
+	        interval = d3.timeHour;
+	        tickDiff = tickDiff / (60 * 60 * 1000); // Convert to hours
+	    }
+	    else if (tickDiff >= 60 * 1000) { // If ticks are minute or larger
+	        interval = d3.timeMinute;
+	        tickDiff = tickDiff / (60 * 1000); // Convert to minutes
+	    }
+	    else if (tickDiff >= 1000) { // If ticks are second or larger
+	        interval = d3.timeSecond;
+	        tickDiff = tickDiff / 1000; // Convert to seconds
+	    }
+	
+	    newTicks = [...ticks];
+	
+	    // If extension > 0, extend to the right, else extend to the left
+	    if (extension > 0) {
+	        let lastTick = ticks[ticks.length - 1];
+	        for (let i = 0; i < X; i++) {
+	            lastTick = interval.offset(lastTick, tickDiff); // Add a new tick
+	            newTicks.push(lastTick);
+	        }
+	    } else if (extension < 0) {
+	        let firstTick = ticks[0];
+	        for (let i = 0; i < Math.abs(X); i++) {
+	            firstTick = interval.offset(firstTick, -1*tickDiff); // Subtract a tick
+	            newTicks.unshift(firstTick);
+	        }
+	    }
     }
-    else if (tickDiff >= 24 * 60 * 60 * 1000) { // If ticks are daily or larger
-        interval = d3.timeDay;
-        tickDiff = tickDiff / (24 * 60 * 60 * 1000); // Convert to days
-    }
-    else if (tickDiff >= 60 * 60 * 1000) { // If ticks are hourly or larger
-        interval = d3.timeHour;
-        tickDiff = tickDiff / (60 * 60 * 1000); // Convert to hours
-    }
-    else if (tickDiff >= 60 * 1000) { // If ticks are minute or larger
-        interval = d3.timeMinute;
-        tickDiff = tickDiff / (60 * 1000); // Convert to minutes
-    }
-    else if (tickDiff >= 1000) { // If ticks are second or larger
-        interval = d3.timeSecond;
-        tickDiff = tickDiff / 1000; // Convert to seconds
+    else{
+	
+	let tickDiff = ticks[1]-ticks[0];	
+	
+	newTicks = [...ticks];
+
+	// If extension > 0, extend to t, else extend to the left
+	    if (extension > 0) {
+	        let lastTick = ticks[ticks.length - 1];
+	        for (let i = 0; i < extension; i++) {
+	            lastTick+=tickDiff;
+	            newTicks.push(lastTick);
+	        }
+	    } else if (extension < 0) {
+	        let firstTick = ticks[0];
+	        for (let i = 0; i < Math.abs(extension); i++) {
+	            firstTick-=tickDiff;
+		    newTicks.unshift(firstTick);
+	        }
+	    }
     }
 
-    let newTicks = [...ticks];
-
-    // If X > 0, extend to the right, else extend to the left
-    if (X > 0) {
-        let lastTick = ticks[ticks.length - 1];
-        for (let i = 0; i < X; i++) {
-            lastTick = interval.offset(lastTick, tickDiff); // Add a new tick
-            newTicks.push(lastTick);
-        }
-    } else if (X < 0) {
-        let firstTick = ticks[0];
-        for (let i = 0; i < Math.abs(X); i++) {
-            firstTick = interval.offset(firstTick, -1*tickDiff); // Subtract a tick
-            newTicks.unshift(firstTick);
-        }
-    }
-    
-    tickValues = Array.from(newTicks);
+    if(newTicks)
+    	tickValues = Array.from(newTicks);
 
     return axis;
   };
