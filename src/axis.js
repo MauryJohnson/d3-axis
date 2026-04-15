@@ -175,7 +175,9 @@ function axis(orient, scale) {
 	let tickDiff = Math.abs(ticks[1]-ticks[0]);	
 	
 	newTicks = [...ticks];
-
+	
+	console.warn("New ticks")
+	console.warn(newTicks)
 	// If extension > 0, extend to t, else extend to the left
 	    if (extension > 0) {
 	        let lastTick = ticks[ticks.length - 1];
