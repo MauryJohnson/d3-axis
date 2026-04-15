@@ -157,13 +157,13 @@ function axis(orient, scale) {
 	    // If extension > 0, extend to the right, else extend to the left
 	    if (extension > 0) {
 	        let lastTick = ticks[ticks.length - 1];
-	        for (let i = 0; i < X; i++) {
+	        for (let i = 0; i < extension; i++) {
 	            lastTick = interval.offset(lastTick, tickDiff); // Add a new tick
 	            newTicks.push(lastTick);
 	        }
 	    } else if (extension < 0) {
 	        let firstTick = ticks[0];
-	        for (let i = 0; i < Math.abs(X); i++) {
+	        for (let i = 0; i < Math.abs(extension); i++) {
 	            firstTick = interval.offset(firstTick, -1*tickDiff); // Subtract a tick
 	            newTicks.unshift(firstTick);
 	        }
