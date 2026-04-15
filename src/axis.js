@@ -121,7 +121,8 @@ function axis(orient, scale) {
     let ticks = scale.ticks();
     let newTicks;
 
-    if(orient === top || orient === bottom){ 
+    if(orient === top || orient === bottom){
+	    console.warn("X ORIENTATION")
 	    // Calculate the interval (difference between the first two ticks)
 	    let tickDiff = ticks[1] - ticks[0];
 	    let interval = d3.timeMinute; // Default to minute interval
@@ -171,7 +172,7 @@ function axis(orient, scale) {
     }
     else{
 	
-	let tickDiff = ticks[1]-ticks[0];	
+	let tickDiff = Math.abs(ticks[1]-ticks[0]);	
 	
 	newTicks = [...ticks];
 
@@ -194,7 +195,7 @@ function axis(orient, scale) {
     if(newTicks)
     	tickValues = Array.from(newTicks);
 
-    return axis;
+    return {axis,tickValues};
   };
 
   axis.scale = function(_) {
