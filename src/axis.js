@@ -195,7 +195,7 @@ function axis(orient, scale) {
     if(newTicks)
     	tickValues = Array.from(newTicks);
 
-    return {axis,tickValues};
+    return {axis,tickValues:newTicks};
   };
 
   axis.scale = function(_) {
