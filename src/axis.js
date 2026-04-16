@@ -176,8 +176,6 @@ function axis(orient, scale) {
 	
 	newTicks = [...ticks];
 	
-	console.warn("New ticks")
-	console.warn(newTicks)
 	// If extension > 0, extend to t, else extend to the left
 	    if (extension > 0) {
 	        let lastTick = ticks[ticks.length - 1];
@@ -197,9 +195,7 @@ function axis(orient, scale) {
     if(newTicks)
     	axis.tickValues(Array.from(newTicks));
 	
-    console.warn("New ticks end")
-    console.warn(newTicks)
-    return {axis,tickValues:newTicks};
+    return axis;
   };
 
   axis.scale = function(_) {
