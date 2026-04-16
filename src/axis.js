@@ -118,7 +118,7 @@ function axis(orient, scale) {
   axis.extend = function(extension) {
 
     // Get the current ticks
-    let ticks = scale.ticks();
+    let ticks = axis.tickValues() || scale.ticks();
     let newTicks;
 
     if(orient === top || orient === bottom){
