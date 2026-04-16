@@ -115,7 +115,7 @@ function axis(orient, scale) {
         .each(function() { this.__axis = position; });
   }
 
-  axis.extend = function(extension) {
+  axis.extend = function(extension,ticksLimit) {
 
     // Get the current ticks
     let ticks = axis.tickValues() || scale.ticks();
@@ -190,6 +190,18 @@ function axis(orient, scale) {
 		    newTicks.unshift(firstTick);
 	        }
 	    }
+
+      if(newTicks.length>ticksLimit){
+
+        let newTicks2 = [];
+        for(var i=0;i<newTicks.length;i+=(newTicks.length/ticksLimit)){
+          if(newTicks[Math.floor(i)])
+            newTicks2.push(newTicks[i])
+        }
+        
+        newTicks = newTicks2;
+
+      }
     }
 
     if(newTicks)
