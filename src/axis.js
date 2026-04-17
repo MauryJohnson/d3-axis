@@ -203,12 +203,12 @@ function axis(orient, scale) {
 	        
         let firstTick = ticks[0];
 
-        for (let i = 0; i < Math.abs(extension[0]); i++) {
+        for (let i = 0; i < Math.abs(extension[1]); i++) {
             firstTick-=tickDiff;
 	          newTicks.unshift(firstTick);
         }
         
-        for (let i = 0; i < extension[1]; i++) {
+        for (let i = 0; i < extension[0]; i++) {
 	            lastTick+=tickDiff;
 	            newTicks.push(lastTick);
 	       }
