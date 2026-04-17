@@ -154,9 +154,28 @@ function axis(orient, scale) {
 	    }
 	
 	    newTicks = [...ticks];
-	
+      
+      //Extend BOTH ends of axis
+      if(extension.length>0){
+        
+        let lastTick = ticks[ticks.length - 1];
+
+        let firstTick = ticks[0];
+        
+        for (let i = 0; i < Math.abs(extension[0]); i++) {
+            firstTick = interval.offset(firstTick, -1*tickDiff); // Subtract a tick
+            newTicks.unshift(firstTick);
+	       }
+
+        
+        for (let i = 0; i < extension[1]; i++) {
+	            lastTick = interval.offset(lastTick, tickDiff); // Add a new tick
+	            newTicks.push(lastTick);
+	      }
+
+      }
 	    // If extension > 0, extend to the right, else extend to the left
-	    if (extension > 0) {
+	    else if (extension > 0) {
 	        let lastTick = ticks[ticks.length - 1];
 	        for (let i = 0; i < extension; i++) {
 	            lastTick = interval.offset(lastTick, tickDiff); // Add a new tick
@@ -177,7 +196,24 @@ function axis(orient, scale) {
 	newTicks = [...ticks];
 	
 	// If extension > 0, extend to t, else extend to the left
-	    if (extension > 0) {
+	     //Extend BOTH ends of axis
+      if(extension.length>0){
+        
+        let lastTick = ticks[ticks.length - 1];
+	        
+        let firstTick = ticks[0];
+
+        for (let i = 0; i < Math.abs(extension[0]); i++) {
+            firstTick-=tickDiff;
+	          newTicks.unshift(firstTick);
+        }
+        
+        for (let i = 0; i < extension[1]; i++) {
+	            lastTick+=tickDiff;
+	            newTicks.push(lastTick);
+	       }
+
+      } else if (extension > 0) {
 	        let lastTick = ticks[ticks.length - 1];
 	        for (let i = 0; i < extension; i++) {
 	            lastTick+=tickDiff;
@@ -187,7 +223,7 @@ function axis(orient, scale) {
 	        let firstTick = ticks[0];
 	        for (let i = 0; i < Math.abs(extension); i++) {
 	            firstTick-=tickDiff;
-		    newTicks.unshift(firstTick);
+		          newTicks.unshift(firstTick);
 	        }
 	    }
 
