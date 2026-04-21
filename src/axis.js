@@ -238,7 +238,7 @@ function axis(orient, scale) {
         newTicks = newTicks2;
 
       }
-      else if(newTicks.length<tickslimit && newTicks.length>=2){
+      else if(newTicks.length<ticksLimit && newTicks.length>=2){
 
         let newTicks2 = [];
         
