@@ -238,6 +238,21 @@ function axis(orient, scale) {
         newTicks = newTicks2;
 
       }
+      else if(newTicks.length<tickslimit && newTicks.length>=2){
+
+        let newTicks2 = [];
+        
+        let step = (newTicks[newTicks.length-1] - newTicks[0]) / ticksLimit;
+        
+        let value = newTicks[0];
+
+        for(var i=0;i<ticksLimit;i++,value+=step){
+          newTicks2.push(value)
+        }
+        
+        newTicks = newTicks2;
+
+      }
     }
 
     if(newTicks)
