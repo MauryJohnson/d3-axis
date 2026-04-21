@@ -232,7 +232,7 @@ function axis(orient, scale) {
         let newTicks2 = [];
         for(var i=0;i<newTicks.length;i+=(newTicks.length/ticksLimit)){
           if(newTicks[Math.floor(i)])
-            newTicks2.push(newTicks[i])
+            newTicks2.push(newTicks[Math.floor(i)])
         }
         
         newTicks = newTicks2;
